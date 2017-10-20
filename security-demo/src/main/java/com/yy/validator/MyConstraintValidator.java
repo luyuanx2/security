@@ -20,6 +20,6 @@ public class MyConstraintValidator implements ConstraintValidator<MyConstraint,O
 
     @Override
     public boolean isValid(Object value, ConstraintValidatorContext constraintValidatorContext) {
-        return false;
+        return true;
     }
 }

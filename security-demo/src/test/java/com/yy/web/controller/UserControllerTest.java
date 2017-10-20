@@ -3,6 +3,7 @@ package com.yy.web.controller;
 import com.yy.common.WebTest;
 import org.junit.Test;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -104,6 +105,14 @@ public class UserControllerTest extends WebTest {
         mockMvc.perform(delete("/user/1")
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    public void whenUploadSuccess() throws Exception {
+        String file = mockMvc.perform(fileUpload("/file")
+                .file(new MockMultipartFile("file", "test.txt", "multipart/form-data", "hello upload".getBytes("UTF-8"))))
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
     }
 
 

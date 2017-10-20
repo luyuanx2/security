@@ -3,6 +3,7 @@ package com.yy.web.controller;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.yy.dto.User;
 import com.yy.dto.UserQueryCondition;
+import com.yy.exception.UserNotExistException;
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 import org.springframework.data.domain.Pageable;
@@ -34,7 +35,6 @@ public class UserController {
                             @PageableDefault(page = 2, size = 17, sort = "username,asc") Pageable pageable) {
 
         System.out.println(ReflectionToStringBuilder.toString(condition, ToStringStyle.MULTI_LINE_STYLE));
-
         System.out.println(pageable.getPageSize());
         System.out.println(pageable.getPageNumber());
         System.out.println(pageable.getSort());
@@ -49,9 +49,11 @@ public class UserController {
     @GetMapping("/{id:\\d+}")
     @JsonView(User.UserDetailView.class)
     public User getInfo(@PathVariable String id){
-        User user = new User();
-        user.setUsername("tom");
-        return user;
+
+        throw new UserNotExistException(id);
+//        User user = new User();
+//        user.setUsername("tom");
+//        return user;
     }
 
     @PostMapping
