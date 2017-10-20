@@ -3,7 +3,8 @@ package com.yy.web.controller;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.yy.dto.User;
 import com.yy.dto.UserQueryCondition;
-import com.yy.exception.UserNotExistException;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 import org.springframework.data.domain.Pageable;
@@ -31,6 +32,7 @@ public class UserController {
 
     @GetMapping
     @JsonView(User.UserSimpleView.class)
+    @ApiOperation(value = "用户查询服务")
     public List<User> query(UserQueryCondition condition,
                             @PageableDefault(page = 2, size = 17, sort = "username,asc") Pageable pageable) {
 
@@ -48,15 +50,17 @@ public class UserController {
 
     @GetMapping("/{id:\\d+}")
     @JsonView(User.UserDetailView.class)
-    public User getInfo(@PathVariable String id){
+    @ApiOperation(value = "根据用户id查询用户详细信息")
+    public User getInfo(@ApiParam(value = "用户id") @PathVariable String id){
 
-        throw new UserNotExistException(id);
-//        User user = new User();
-//        user.setUsername("tom");
-//        return user;
+//        throw new UserNotExistException(id);
+        User user = new User();
+        user.setUsername("tom");
+        return user;
     }
 
     @PostMapping
+    @ApiOperation(value = "创建用户")
     public User create(@Valid @RequestBody User user,BindingResult errors) {
 
         System.out.println(user.getId());
@@ -69,6 +73,7 @@ public class UserController {
     }
 
     @PutMapping("/{id:\\d+}")
+    @ApiOperation(value = "修改用户信息")
     public User update(@Valid @RequestBody User user, BindingResult errors) {
 
         System.out.println(user.getId());
@@ -81,7 +86,8 @@ public class UserController {
     }
 
     @DeleteMapping("/{id:\\d+}")
-    public void delete(@PathVariable String id) {
+    @ApiOperation(value = "删除用户")
+    public void delete(@ApiParam(value = "用户id") @PathVariable String id) {
         System.out.println(id);
     }
 }
