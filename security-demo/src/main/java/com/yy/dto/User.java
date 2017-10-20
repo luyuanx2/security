@@ -64,5 +64,6 @@ public class User {
 	public void setBirthday(Date birthday) {
 		this.birthday = birthday;
 	}
+
 	
 }
