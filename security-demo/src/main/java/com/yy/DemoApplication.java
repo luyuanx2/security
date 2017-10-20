@@ -21,4 +21,6 @@ public class DemoApplication {
     public String hello(){
         return "hello spring security";
     }
+
+    //spring-boot 前端参数转换配置 http://www.jianshu.com/p/3a5fc2564501
 }
