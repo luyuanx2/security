@@ -1,18 +1,20 @@
 package com.yy.security.browser;
 
 import com.yy.security.browser.support.SimpleResponse;
+import com.yy.security.core.properties.LoginResponseType;
 import com.yy.security.core.properties.SecurityConstants;
 import com.yy.security.core.properties.SecurityProperties;
-import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
 import org.springframework.security.web.savedrequest.RequestCache;
 import org.springframework.security.web.savedrequest.SavedRequest;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
@@ -34,13 +36,15 @@ public class BrowserSecurityController {
 
     //   /authentication/require
     @RequestMapping(SecurityConstants.DEFAULT_UNAUTHENTICATION_URL)
+    @ResponseStatus(code = HttpStatus.UNAUTHORIZED)
     public SimpleResponse requireAuthentication(HttpServletRequest request, HttpServletResponse response) throws IOException {
         SavedRequest saveRequest = requestCache.getRequest(request, response);
 
         if (saveRequest != null){
             String targetUrl = saveRequest.getRedirectUrl();
             log.info("引发跳转的请求是:" + targetUrl);
-            if(StringUtils.endsWithIgnoreCase(targetUrl,".html")){
+            //if(StringUtils.endsWithIgnoreCase(targetUrl,".html")){
+            if(LoginResponseType.JSON.equals(securityProperties.getBrowser().getLoginType())){
                 redirectStrategy.sendRedirect(request,response,securityProperties.getBrowser().getLoginPage());
             }
         }

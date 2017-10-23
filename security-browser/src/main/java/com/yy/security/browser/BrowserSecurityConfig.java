@@ -4,14 +4,17 @@ import com.yy.security.core.authentication.AbstractChannelSecurityConfig;
 import com.yy.security.core.properties.SecurityConstants;
 import com.yy.security.core.properties.SecurityProperties;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 /**
  * Created by luyuanyuan on 2017/10/23.
  */
 @Configuration
-public class BrowserSecurityConfig extends AbstractChannelSecurityConfig {
+public class  BrowserSecurityConfig extends AbstractChannelSecurityConfig {
 
     @SuppressWarnings("SpringJavaAutowiringInspection")
     @Autowired
@@ -37,4 +40,10 @@ public class BrowserSecurityConfig extends AbstractChannelSecurityConfig {
                 .and()
                 .csrf().disable();
     }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
 }
