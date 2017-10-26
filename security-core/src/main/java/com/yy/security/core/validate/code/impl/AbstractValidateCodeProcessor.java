@@ -130,7 +130,6 @@ public abstract class AbstractValidateCodeProcessor<C extends ValidateCode> impl
         if (!StringUtils.equals(codeInSession.getCode(), codeInRequest)) {
             throw new ValidateCodeException(processorType + "验证码不匹配");
         }
-
         sessionStrategy.removeAttribute(request, sessionKey);
     }
 }
