@@ -3,6 +3,7 @@ package com.yy.security.browser;
 import com.yy.security.core.authentication.AbstractChannelSecurityConfig;
 import com.yy.security.core.properties.SecurityConstants;
 import com.yy.security.core.properties.SecurityProperties;
+import com.yy.security.core.validate.code.ValidateCodeSecurityConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,11 +20,19 @@ public class  BrowserSecurityConfig extends AbstractChannelSecurityConfig {
     @SuppressWarnings("SpringJavaAutowiringInspection")
     @Autowired
     private SecurityProperties securityProperties;
+
+    @SuppressWarnings("SpringJavaAutowiringInspection")
+    @Autowired
+    private ValidateCodeSecurityConfig validateCodeSecurityConfig;
+
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
         applyPasswordAuthenticationConfig(http);
-        http.authorizeRequests()
+        http.apply(validateCodeSecurityConfig)
+                .and()
+                .authorizeRequests()
                 .antMatchers(
                         SecurityConstants.DEFAULT_UNAUTHENTICATION_URL,
                         SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_MOBILE,
