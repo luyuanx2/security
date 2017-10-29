@@ -1,6 +1,7 @@
 package com.yy.security.browser;
 
 import com.yy.security.core.authentication.AbstractChannelSecurityConfig;
+import com.yy.security.core.authentication.mobile.SmsCodeAuthenticationSecurityConfig;
 import com.yy.security.core.properties.SecurityConstants;
 import com.yy.security.core.properties.SecurityProperties;
 import com.yy.security.core.validate.code.ValidateCodeSecurityConfig;
@@ -39,12 +40,19 @@ public class  BrowserSecurityConfig extends AbstractChannelSecurityConfig {
     @Autowired
     private DataSource dataSource;
 
+    @SuppressWarnings("SpringJavaAutowiringInspection")
+    @Autowired
+    private SmsCodeAuthenticationSecurityConfig smsCodeAuthenticationSecurityConfig;
+
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
         applyPasswordAuthenticationConfig(http);
         http.apply(validateCodeSecurityConfig)
+                .and()
+                //配置自定义手机登录过滤器相关
+                .apply(smsCodeAuthenticationSecurityConfig)
                 .and()
                 .rememberMe()
                     .tokenRepository(persistentTokenRepository())
