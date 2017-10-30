@@ -14,6 +14,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
+import org.springframework.social.security.SpringSocialConfigurer;
 
 import javax.sql.DataSource;
 
@@ -44,6 +45,10 @@ public class  BrowserSecurityConfig extends AbstractChannelSecurityConfig {
     @Autowired
     private SmsCodeAuthenticationSecurityConfig smsCodeAuthenticationSecurityConfig;
 
+    @SuppressWarnings("SpringJavaAutowiringInspection")
+    @Autowired
+    private SpringSocialConfigurer mySocialSecurityConfig;
+
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -53,6 +58,8 @@ public class  BrowserSecurityConfig extends AbstractChannelSecurityConfig {
                 .and()
                 //配置自定义手机登录过滤器相关
                 .apply(smsCodeAuthenticationSecurityConfig)
+                .and()
+                .apply(mySocialSecurityConfig)
                 .and()
                 .rememberMe()
                     .tokenRepository(persistentTokenRepository())
