@@ -3,9 +3,13 @@ package com.yy.security.core.social.qq.connet;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.social.oauth2.AccessGrant;
 import org.springframework.social.oauth2.OAuth2Template;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestTemplate;
+
+import java.nio.charset.Charset;
 
 /**
  * Created by luyuanyuan on 2017/10/30.
@@ -30,5 +34,12 @@ public class QQOAuth2Template extends OAuth2Template{
         String refreshToken = StringUtils.substringAfterLast(items[2], "=");
 
         return new AccessGrant(accessToken, null,refreshToken, expiresIn);
+    }
+
+    @Override
+    protected RestTemplate getRestTemplate() {
+        RestTemplate restTemplate = super.getRestTemplate();
+        restTemplate.getMessageConverters().add(new StringHttpMessageConverter(Charset.forName("UTF-8")));
+        return restTemplate;
     }
 }
