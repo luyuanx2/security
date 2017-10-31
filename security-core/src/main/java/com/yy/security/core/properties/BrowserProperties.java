@@ -5,6 +5,8 @@ package com.yy.security.core.properties;
  */
 public class BrowserProperties {
 
+    private SessionProperties session = new SessionProperties();
+
     private String loginPage = SecurityConstants.DEFAULT_LOGIN_PAGE_URL;
 
     private LoginResponseType loginType = LoginResponseType.JSON;
@@ -43,5 +45,13 @@ public class BrowserProperties {
 
     public void setRememberMeSeconds(int rememberMeSeconds) {
         this.rememberMeSeconds = rememberMeSeconds;
+    }
+
+    public SessionProperties getSession() {
+        return session;
+    }
+
+    public void setSession(SessionProperties session) {
+        this.session = session;
     }
 }

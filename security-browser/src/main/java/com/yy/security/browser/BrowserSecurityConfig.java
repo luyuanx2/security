@@ -66,6 +66,15 @@ public class  BrowserSecurityConfig extends AbstractChannelSecurityConfig {
                     .tokenValiditySeconds(securityProperties.getBrowser().getRememberMeSeconds())
                     .userDetailsService(userDetailsService)
                 .and()
+                .sessionManagement()
+                    .invalidSessionUrl("/session/invalid")
+                    //最大session数
+                    .maximumSessions(securityProperties.getBrowser().getSession().getMaximumSessions())
+                    //达到最大session时是否阻止新的登录请求，默认为false，不阻止，新的登录会将老的登录失效掉
+                    .maxSessionsPreventsLogin(securityProperties.getBrowser().getSession().isMaxSessionsPreventsLogin())
+                    //并发登录处理策略
+                    .expiredSessionStrategy(sessionInformationExpiredStrategy)
+                .and()
                 .authorizeRequests()
                 .antMatchers(
                         SecurityConstants.DEFAULT_UNAUTHENTICATION_URL,
@@ -73,8 +82,8 @@ public class  BrowserSecurityConfig extends AbstractChannelSecurityConfig {
                         securityProperties.getBrowser().getLoginPage(),
                         SecurityConstants.DEFAULT_VALIDATE_CODE_URL_PREFIX+"/*",
                         securityProperties.getBrowser().getSignUpUrl(),
-//                        securityProperties.getBrowser().getSession().getSessionInvalidUrl()+".json",
-//                        securityProperties.getBrowser().getSession().getSessionInvalidUrl()+".html",
+                        securityProperties.getBrowser().getSession().getSessionInvalidUrl()+".json",
+                        securityProperties.getBrowser().getSession().getSessionInvalidUrl()+".html",
                         "/user/regist"
                 )
                 .permitAll()

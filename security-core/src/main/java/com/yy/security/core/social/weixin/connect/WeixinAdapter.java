@@ -15,6 +15,9 @@ public class WeixinAdapter implements ApiAdapter<Weixin> {
 
     private String openId;
 
+    public WeixinAdapter(){
+    }
+
     public WeixinAdapter(String openId){
         this.openId = openId;
     }
