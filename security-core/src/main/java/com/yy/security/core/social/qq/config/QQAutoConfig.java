@@ -2,7 +2,7 @@ package com.yy.security.core.social.qq.config;
 
 import com.yy.security.core.properties.QQProperties;
 import com.yy.security.core.properties.SecurityProperties;
-import com.yy.security.core.social.qq.connet.QQConnectionFactory;
+import com.yy.security.core.social.qq.connect.QQConnectionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.social.SocialAutoConfigurerAdapter;
@@ -18,7 +18,6 @@ public class QQAutoConfig extends SocialAutoConfigurerAdapter {
 
     @Autowired
     private SecurityProperties securityProperties;
-
 
     @Override
     protected ConnectionFactory<?> createConnectionFactory() {
