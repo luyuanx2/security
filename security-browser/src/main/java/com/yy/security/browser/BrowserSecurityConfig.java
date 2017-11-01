@@ -12,6 +12,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 import org.springframework.security.web.session.InvalidSessionStrategy;
@@ -54,8 +55,13 @@ public class  BrowserSecurityConfig extends AbstractChannelSecurityConfig {
     @Autowired
     private SessionInformationExpiredStrategy sessionInformationExpiredStrategy;
 
+    @SuppressWarnings("SpringJavaAutowiringInspection")
     @Autowired
     private InvalidSessionStrategy invalidSessionStrategy;
+
+    @SuppressWarnings("SpringJavaAutowiringInspection")
+    @Autowired
+    private LogoutSuccessHandler logoutSuccessHandler;
 
 
     @Override
@@ -85,6 +91,12 @@ public class  BrowserSecurityConfig extends AbstractChannelSecurityConfig {
                     .expiredSessionStrategy(sessionInformationExpiredStrategy)
                 .and()
                 .and()
+                .logout()
+                    .logoutUrl("/signOut")
+                    //.logoutSuccessUrl("/signOut.html")
+                    .logoutSuccessHandler(logoutSuccessHandler)
+                    .deleteCookies("JSESSIONID")
+                .and()
                 .authorizeRequests()
                 .antMatchers(
                         SecurityConstants.DEFAULT_UNAUTHENTICATION_URL,
@@ -94,7 +106,8 @@ public class  BrowserSecurityConfig extends AbstractChannelSecurityConfig {
                         securityProperties.getBrowser().getSignUpUrl(),
                         securityProperties.getBrowser().getSession().getSessionInvalidUrl()+".json",
                         securityProperties.getBrowser().getSession().getSessionInvalidUrl()+".html",
-                        "/user/regist","/qqLogin/*"
+                        securityProperties.getBrowser().getSignOutUrl(),
+                        "/user/regist"
                 )
                 .permitAll()
                 .anyRequest()

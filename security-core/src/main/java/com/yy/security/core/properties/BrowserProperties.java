@@ -15,6 +15,8 @@ public class BrowserProperties {
 
     private String signUpUrl = "/imooc-signUp.html";
 
+    private String signOutUrl;
+
     public String getSignUpUrl() {
         return signUpUrl;
     }
@@ -53,5 +55,13 @@ public class BrowserProperties {
 
     public void setSession(SessionProperties session) {
         this.session = session;
+    }
+
+    public String getSignOutUrl() {
+        return signOutUrl;
+    }
+
+    public void setSignOutUrl(String signOutUrl) {
+        this.signOutUrl = signOutUrl;
     }
 }

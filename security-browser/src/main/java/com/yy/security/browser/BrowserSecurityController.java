@@ -56,7 +56,7 @@ public class BrowserSecurityController {
                 redirectStrategy.sendRedirect(request,response,securityProperties.getBrowser().getLoginPage());
             }
         }
-        return new SimpleResponse("访问的服务需要身份认证，请引导用户到登录页");
+        return new SimpleResponse("357fe0991ae50e632bfa3");
     }
 
     @GetMapping("/social/user")
