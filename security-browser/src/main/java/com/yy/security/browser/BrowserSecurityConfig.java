@@ -14,6 +14,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
+import org.springframework.security.web.session.InvalidSessionStrategy;
+import org.springframework.security.web.session.SessionInformationExpiredStrategy;
 import org.springframework.social.security.SpringSocialConfigurer;
 
 import javax.sql.DataSource;
@@ -49,6 +51,12 @@ public class  BrowserSecurityConfig extends AbstractChannelSecurityConfig {
     @Autowired
     private SpringSocialConfigurer mySocialSecurityConfig;
 
+    @Autowired
+    private SessionInformationExpiredStrategy sessionInformationExpiredStrategy;
+
+    @Autowired
+    private InvalidSessionStrategy invalidSessionStrategy;
+
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -67,13 +75,15 @@ public class  BrowserSecurityConfig extends AbstractChannelSecurityConfig {
                     .userDetailsService(userDetailsService)
                 .and()
                 .sessionManagement()
-                    .invalidSessionUrl("/session/invalid")
+//                    .invalidSessionUrl("/session/invalid")
+                    .invalidSessionStrategy(invalidSessionStrategy)
                     //最大session数
                     .maximumSessions(securityProperties.getBrowser().getSession().getMaximumSessions())
                     //达到最大session时是否阻止新的登录请求，默认为false，不阻止，新的登录会将老的登录失效掉
                     .maxSessionsPreventsLogin(securityProperties.getBrowser().getSession().isMaxSessionsPreventsLogin())
                     //并发登录处理策略
                     .expiredSessionStrategy(sessionInformationExpiredStrategy)
+                .and()
                 .and()
                 .authorizeRequests()
                 .antMatchers(
