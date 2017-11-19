@@ -1,4 +1,4 @@
-package com.yy.security.browser.support;
+package com.yy.security.core.support;
 
 /**
  * Created by luyuanyuan on 2017/10/23.

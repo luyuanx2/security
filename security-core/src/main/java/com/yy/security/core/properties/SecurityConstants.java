@@ -35,6 +35,11 @@ public class SecurityConstants {
     public static final String DEFAULT_LOGIN_PROCESSING_URL_MOBILE = "/authentication/mobile";
 
     /**
+     * 默认的openid登录请求处理url
+     */
+    public static final String DEFAULT_LOGIN_PROCESSING_URL_OPENID = "/authentication/openid";
+
+    /**
      * 验证图片验证码时，http请求中默认的携带图片验证码信息的参数的名称
      */
     public static final String DEFAULT_PARAMETER_NAME_CODE_IMAGE = "imageCode";
@@ -52,4 +57,9 @@ public class SecurityConstants {
      * session失效默认的跳转地址
      */
     public static final String DEFAULT_SESSION_INVALID_URL = "/session/invalid";
+
+    public static final String DEFAULT_PARAMETER_NAME_OPENID = "openId";
+    public static final String DEFAULT_PARAMETER_NAME_PROVIDERID = "providerId";
+
+
 }

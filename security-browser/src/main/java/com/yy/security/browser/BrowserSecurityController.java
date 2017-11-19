@@ -1,10 +1,10 @@
 package com.yy.security.browser;
 
-import com.yy.security.browser.support.SimpleResponse;
-import com.yy.security.browser.support.SocialUserInfo;
 import com.yy.security.core.properties.LoginResponseType;
 import com.yy.security.core.properties.SecurityConstants;
 import com.yy.security.core.properties.SecurityProperties;
+import com.yy.security.core.support.SimpleResponse;
+import com.yy.security.core.support.SocialUserInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

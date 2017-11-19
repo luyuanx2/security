@@ -3,6 +3,7 @@ package com.yy.web.controller;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.yy.dto.User;
 import com.yy.dto.UserQueryCondition;
+import com.yy.security.app.social.AppSignUpUtils;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.apache.commons.lang.RandomStringUtils;
@@ -11,6 +12,8 @@ import org.apache.commons.lang.builder.ToStringStyle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.social.connect.web.ProviderSignInUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -31,13 +34,19 @@ public class UserController {
     @Autowired
     private ProviderSignInUtils providerSignInUtils;
 
+    @Autowired
+    private AppSignUpUtils appSignUpUtils;
+
+
     @PostMapping("/regist")
     public void regist(User user, HttpServletRequest request) {
 
         //不管是注册用户还是绑定用户，都会拿到一个用户唯一标识。
         String userId = RandomStringUtils.random(6);
-        providerSignInUtils.doPostSignUp(userId, new ServletWebRequest(request));
+        //providerSignInUtils.doPostSignUp(userId, new ServletWebRequest(request));
+        appSignUpUtils.doPostSignUp(new ServletWebRequest(request),userId);
     }
+
 
     @GetMapping
     @JsonView(User.UserSimpleView.class)
@@ -65,6 +74,14 @@ public class UserController {
 //        throw new UserNotExistException(id);
         User user = new User();
         user.setUsername("tom");
+        return user;
+    }
+
+
+
+    @GetMapping("/me")
+    public Object getCurrentUser(@AuthenticationPrincipal UserDetails user){
+
         return user;
     }
 

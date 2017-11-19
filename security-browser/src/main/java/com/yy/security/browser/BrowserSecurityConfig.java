@@ -28,38 +28,30 @@ import javax.sql.DataSource;
 @Configuration
 public class  BrowserSecurityConfig extends AbstractChannelSecurityConfig {
 
-    @SuppressWarnings("SpringJavaAutowiringInspection")
     @Autowired
     private SecurityProperties securityProperties;
 
-    @SuppressWarnings("SpringJavaAutowiringInspection")
     @Autowired
     private ValidateCodeSecurityConfig validateCodeSecurityConfig;
 
-    @SuppressWarnings("SpringJavaAutowiringInspection")
     @Autowired
     private UserDetailsService userDetailsService;
 
-    @SuppressWarnings("SpringJavaAutowiringInspection")
     @Autowired
     private DataSource dataSource;
 
-    @SuppressWarnings("SpringJavaAutowiringInspection")
     @Autowired
     private SmsCodeAuthenticationSecurityConfig smsCodeAuthenticationSecurityConfig;
 
-    @SuppressWarnings("SpringJavaAutowiringInspection")
     @Autowired
     private SpringSocialConfigurer mySocialSecurityConfig;
 
     @Autowired
     private SessionInformationExpiredStrategy sessionInformationExpiredStrategy;
 
-    @SuppressWarnings("SpringJavaAutowiringInspection")
     @Autowired
     private InvalidSessionStrategy invalidSessionStrategy;
 
-    @SuppressWarnings("SpringJavaAutowiringInspection")
     @Autowired
     private LogoutSuccessHandler logoutSuccessHandler;
 
@@ -116,10 +108,6 @@ public class  BrowserSecurityConfig extends AbstractChannelSecurityConfig {
                 .csrf().disable();
     }
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
 
     @Bean
     public PersistentTokenRepository persistentTokenRepository() {

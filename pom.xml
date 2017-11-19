@@ -14,7 +14,6 @@
     </properties>
     <modules>
         <module>security-core</module>
-        <module>security-core</module>
         <module>security-browser</module>
         <module>security-app</module>
         <module>security-demo</module>

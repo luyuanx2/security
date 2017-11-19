@@ -33,6 +33,9 @@ public class SocialConfig extends SocialConfigurerAdapter {
     @Autowired(required = false)
     private ConnectionSignUp connectionSignUp;
 
+    @Autowired(required = false)
+    private SocialAuthenticationFilterPostProcessor socialAuthenticationFilterPostProcessor;
+
     @Override
     public UsersConnectionRepository getUsersConnectionRepository(ConnectionFactoryLocator connectionFactoryLocator) {
 
@@ -53,6 +56,9 @@ public class SocialConfig extends SocialConfigurerAdapter {
 
         //找不到用户跳转到注册页面
         configurer.signupUrl(securityProperties.getBrowser().getSignUpUrl());
+
+        //app端增强登录成功处理
+        configurer.setSocialAuthenticationFilterPostProcessor(socialAuthenticationFilterPostProcessor);
         return configurer;
     }
 

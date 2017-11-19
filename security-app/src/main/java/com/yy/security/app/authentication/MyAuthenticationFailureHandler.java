@@ -1,9 +1,8 @@
-package com.yy.security.browser.authentication;
+package com.yy.security.app.authentication;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yy.security.core.properties.LoginResponseType;
 import com.yy.security.core.properties.SecurityProperties;
-import com.yy.security.core.support.SimpleResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +38,7 @@ public class MyAuthenticationFailureHandler extends SimpleUrlAuthenticationFailu
         if (LoginResponseType.JSON.equals(securityProperties.getBrowser().getLoginType())) {
             response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
             response.setContentType("application/json;charset=UTF-8");
-            response.getWriter().write(objectMapper.writeValueAsString(new SimpleResponse(exception.getMessage())));
+            //response.getWriter().write(objectMapper.writeValueAsString(new SimpleResponse(exception.getMessage())));
         } else {
             super.onAuthenticationFailure(request, response, exception);
         }

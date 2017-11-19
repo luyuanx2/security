@@ -1,7 +1,7 @@
 package com.yy.security.browser.session;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.yy.security.browser.support.SimpleResponse;
+import com.yy.security.core.support.SimpleResponse;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
