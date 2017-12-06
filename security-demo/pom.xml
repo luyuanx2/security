@@ -13,9 +13,14 @@
     <packaging>jar</packaging>
 
     <dependencies>
-        <dependency>
+       <!-- <dependency>
             <groupId>com.yy.security</groupId>
             <artifactId>security-app</artifactId>
+            <version>${yy.security.version}</version>
+        </dependency>-->
+        <dependency>
+            <groupId>com.yy.security</groupId>
+            <artifactId>security-browser</artifactId>
             <version>${yy.security.version}</version>
         </dependency>
 
@@ -55,6 +60,11 @@
             <groupId>com.github.tomakehurst</groupId>
             <artifactId>wiremock</artifactId>
             <version>2.5.1</version>
+        </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt</artifactId>
+            <version>0.7.0</version>
         </dependency>
 
         <dependency>

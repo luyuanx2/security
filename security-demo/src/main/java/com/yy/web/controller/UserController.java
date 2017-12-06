@@ -3,17 +3,19 @@ package com.yy.web.controller;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.yy.dto.User;
 import com.yy.dto.UserQueryCondition;
-import com.yy.security.app.social.AppSignUpUtils;
+import com.yy.security.core.properties.SecurityProperties;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.Authentication;
 import org.springframework.social.connect.web.ProviderSignInUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +23,7 @@ import org.springframework.web.context.request.ServletWebRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,9 +36,11 @@ public class UserController {
 
     @Autowired
     private ProviderSignInUtils providerSignInUtils;
-
     @Autowired
-    private AppSignUpUtils appSignUpUtils;
+    private SecurityProperties securityProperties;
+
+    //@Autowired
+    //private AppSignUpUtils appSignUpUtils;
 
 
     @PostMapping("/regist")
@@ -43,8 +48,8 @@ public class UserController {
 
         //不管是注册用户还是绑定用户，都会拿到一个用户唯一标识。
         String userId = RandomStringUtils.random(6);
-        //providerSignInUtils.doPostSignUp(userId, new ServletWebRequest(request));
-        appSignUpUtils.doPostSignUp(new ServletWebRequest(request),userId);
+        providerSignInUtils.doPostSignUp(userId, new ServletWebRequest(request));
+        //appSignUpUtils.doPostSignUp(new ServletWebRequest(request),userId);
     }
 
 
@@ -80,8 +85,16 @@ public class UserController {
 
 
     @GetMapping("/me")
-    public Object getCurrentUser(@AuthenticationPrincipal UserDetails user){
+    //public Object getCurrentUser(@AuthenticationPrincipal UserDetails user){
+    public Object getCurrentUser(Authentication user,HttpServletRequest request) throws UnsupportedEncodingException {
+        String header = request.getHeader("Authorization");
+        String token = StringUtils.substringAfter(header, "bearer ");
+        Claims claims = Jwts.parser().setSigningKey(securityProperties.getOauth2()
+                .getJwtSigningKey().getBytes("UTF-8"))
+        .parseClaimsJws(token).getBody();
 
+        String company = (String) claims.get("company");
+        System.out.println("--------"+company);
         return user;
     }
 
