@@ -46,7 +46,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         super.addInterceptors(registry);
         registry.addInterceptor(timeInterceptor);//.addPathPatterns();
     }
-
+    //
     @Bean
     public FilterRegistrationBean timeFilter(){
         FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean();
